@@ -18,13 +18,13 @@ public class User implements UserDetails {
     private String name;
     private String first_name;
     private String email;
-    @Column(name = "username", unique = true, nullable = false, length = 45)
+    @Column(name = "username")
     private String username;
-    @Column(name = "password", nullable = false, length = 60)
+    @Column(name = "password")
     private String password;
-    @Column(name = "enabled", nullable = false)
+    @Column(name = "enabled")
     private boolean enabled;
-    @OneToMany
+    @OneToMany(mappedBy="user")
     private List<Personnage> personnages;
 
 

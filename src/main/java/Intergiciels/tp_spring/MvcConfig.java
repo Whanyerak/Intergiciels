@@ -1,4 +1,4 @@
-package Intergiciels.tp_spring.hello;
+package Intergiciels.tp_spring;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -14,6 +14,8 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/index").setViewName("index");
         registry.addViewController("/registration").setViewName("registration");
+        registry.addViewController("/personnageCreation").setViewName("personnageCreation");
+        registry.addViewController("/username").setViewName("username");
     }
 
 }

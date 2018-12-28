@@ -8,8 +8,8 @@ public class Personnage {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
-//    @ManyToOne
-//    private User user;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private User user;
     private String name;
     private Integer points;
 
@@ -39,11 +39,11 @@ public class Personnage {
         this.id = id;
     }
 
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
