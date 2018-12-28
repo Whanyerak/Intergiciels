@@ -1,12 +1,17 @@
 package Intergiciels.tp_spring.Entities;
 
+import Intergiciels.tp_spring.Security.BCryptManagerUtil;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name="users")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
@@ -61,6 +66,10 @@ public class User {
         this.username = username;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     public List<Personnage> getPersonnages() {
         return personnages;
     }
@@ -74,15 +83,32 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        if (!password.isEmpty()) {
+            this.password = BCryptManagerUtil.passwordencoder().encode(password);
+        }
+    }
+    public String getPassword() {
+        return this.password;
     }
 
-    public String getPassword() {
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
     }
 
-    public String getUsername() {
-        return username;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
     //End of Spring Security methods

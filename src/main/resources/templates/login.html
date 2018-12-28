@@ -5,6 +5,12 @@
     <title>Spring Security Example </title>
 </head>
 <body>
+<header th:replace="../static/html/header::header"></header>
+
+<br>
+<br>
+<br>
+
 <div th:if="${param.error}">
     Invalid username and password.
 </div>
@@ -12,9 +18,21 @@
     You have been logged out.
 </div>
 <form th:action="@{/login}" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><input type="submit" value="Sign In"/></div>
+    <fieldset>
+        <div>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="username" required="required" autofocus="autofocus" />
+        </div>
+
+        <div>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="password" required="required" />
+        </div>
+
+        <div>
+            <input type="submit" value="Log in" />
+        </div>
+    </fieldset>
 </form>
 </body>
 </html>

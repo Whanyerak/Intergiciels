@@ -20,40 +20,15 @@ public class UserController {
     @GetMapping("/add")
     public String userForm(Model model) {
         model.addAttribute("user", new User());
-        return "index";
+        return "registration";
     }
 
     @PostMapping(path="/add") // Map ONLY GET Requests
-/*    public @ResponseBody String addNewUser (@RequestParam String name,
-                                            @RequestParam String first_name,
-                                            @RequestParam String email,
-                                            @RequestParam String username,
-                                            @RequestParam String password
-                                            ) {
-
-        //name=morin&first_name=valentin&email=vmorin@gmail.com&username=vahflouz&password=password
-
-        User n = new User();
-        n.setName(name);
-        n.setEmail(email);
-        n.setFirst_name(first_name);
-        n.setUsername(username);
-        n.setPassword(password);
-        n.setId(1);
-        n.setEnabled(true);
-        n.setPersonnages();
-        userRepository.save(n);
-        return "Saved";
-    }*/
-
-    public @ResponseBody String addNewUser (@ModelAttribute User user) {
-
-        //name=morin&first_name=valentin&email=vmorin@gmail.com&username=vahflouz&password=password
-
+    public String addNewUser (@ModelAttribute User user) {
         user.setEnabled(true);
         user.setPersonnages();
         userRepository.save(user);
-        return "Saved";
+        return "home";
     }
 
     @GetMapping(path="/all")
