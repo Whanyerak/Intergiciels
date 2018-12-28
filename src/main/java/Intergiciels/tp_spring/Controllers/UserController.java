@@ -1,5 +1,7 @@
 package Intergiciels.tp_spring.Controllers;
 
+import Intergiciels.tp_spring.Entities.League;
+import Intergiciels.tp_spring.Entities.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +29,9 @@ public class UserController {
     public String addNewUser (@ModelAttribute User user) {
         user.setEnabled(true);
         user.setPersonnages();
+        user.setPoints(10000);
+        user.setRole(Role.ROLE_USER);
+        user.setLeague(League.Bronze);
         userRepository.save(user);
         return "home";
     }

@@ -23,17 +23,16 @@ import java.security.Principal;
 public class PersonnageController {
     @Autowired
     private PersonnageRepository personnageRepository;
+    @Autowired
     private UserRepository userRepository;
-    private UserService userService;
 
-
-    //Récupére le joueur connecté courant
+    //Récupère le joueur connecté courant
     public User getConnectedUser() {
         User user = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             user = userRepository.findByUsername(((UserDetails)principal).getUsername());
-            System.out.println(user.getName());
+            System.out.println(user.getUsername());
         }
         return user;
     }
@@ -46,7 +45,12 @@ public class PersonnageController {
 
     @PostMapping(path="/add") // Map ONLY GET Requests
     public String addNewPersonnage (@ModelAttribute Personnage personnage) {
-        User user = getConnectedUser();
+        UserDetails details = (UserDetails)SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        User user = userRepository.findByUsername(details.getUsername());
         personnage.setUser(user);
         personnageRepository.save(personnage);
         return "home";

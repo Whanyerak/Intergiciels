@@ -2,6 +2,7 @@ package Intergiciels.tp_spring.Entities;
 
 import Intergiciels.tp_spring.Security.BCryptManagerUtil;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -24,11 +25,34 @@ public class User implements UserDetails {
     private String password;
     @Column(name = "enabled")
     private boolean enabled;
+    @Column(name = "points")
+    private int points;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     @OneToMany(mappedBy="user")
     private List<Personnage> personnages;
-
+    private League league;
 
     public User() {}
+
+    public User(String firstname, String lastname, String playername, String password, League league, Integer points, Role role) {
+        this.first_name = firstname;
+        this.name = lastname;
+        this.username = playername;
+        this.password = password;
+        this.league = league;
+        this.points = points;
+        this.role = role;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<SimpleGrantedAuthority> authList = new ArrayList<>();
+
+        authList.add(new SimpleGrantedAuthority("ROLE_USER"));
+
+        return authList;
+    }
 
     public Integer getId() {
         return id;
@@ -92,11 +116,6 @@ public class User implements UserDetails {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
     public boolean isAccountNonExpired() {
         return true;
     }
@@ -124,5 +143,29 @@ public class User implements UserDetails {
     @Override
     public String toString() {
         return String.format("User: %s %s %s", id, name, email);
+    }
+
+    public League getLeague() {
+        return league;
+    }
+
+    public void setLeague(League league) {
+        this.league = league;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
