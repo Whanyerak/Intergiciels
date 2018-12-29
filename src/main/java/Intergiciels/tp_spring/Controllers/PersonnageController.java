@@ -16,6 +16,8 @@ import Intergiciels.tp_spring.Entities.Personnage;
 import Intergiciels.tp_spring.Repositories.PersonnageRepository;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Controller
@@ -25,17 +27,6 @@ public class PersonnageController {
     private PersonnageRepository personnageRepository;
     @Autowired
     private UserRepository userRepository;
-
-    //Récupère le joueur connecté courant
-    public User getConnectedUser() {
-        User user = null;
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            user = userRepository.findByUsername(((UserDetails)principal).getUsername());
-            System.out.println(user.getUsername());
-        }
-        return user;
-    }
 
     @GetMapping(path="/add")
     public String addPersonnageForm (Model model) {
@@ -52,13 +43,31 @@ public class PersonnageController {
 
         User user = userRepository.findByUsername(details.getUsername());
         personnage.setUser(user);
+        if(user.getPoints()-personnage.getPoints() < 0) {
+            System.out.println("Pas assez de points disponibles pour créer le personnage.");
+            return "personnageCreation";
+        }
+        user.setPoints(user.getPoints()-personnage.getPoints());
         personnageRepository.save(personnage);
+        userRepository.save(user);
+        return "home";
+    }
+
+    @PostMapping(path="/remove") // Map ONLY GET Requests
+    public String removePersonnage (@RequestParam(required = true) String characterId, Model model) {
+        Integer id = Integer.parseInt(characterId);
+        Personnage personnage = personnageRepository.findById(id).get();
+        personnageRepository.delete(personnage);
         return "home";
     }
 
     @GetMapping(path="/all")
-    public @ResponseBody Iterable<Personnage> getAllPersonnages() {
-        // This returns a JSON or XML with the users
-        return personnageRepository.findAll();
+    public @ResponseBody List<String> getAllPersonnages() {
+        List<Personnage> list = (List)personnageRepository.findAll();
+        List<String> nameList = new ArrayList<>();
+        for(Personnage p : list) {
+            nameList.add(p.getName());
+        }
+        return nameList;
     }
 }

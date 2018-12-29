@@ -1,38 +1,46 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head>
-    <title>Spring Security Example </title>
-</head>
-<body>
-<header th:replace="../static/html/header::header"></header>
+    <head>
+        <title>Jui bo</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" th:href="@{/css/index.css}"/>
+    </head>
 
-<br>
-<br>
-<br>
+    <body>
+        <nav class="navbar navbar-light bg-dark">
+            <span class="navbar-text">
+                <h1>Welcome into the WarZone</h1>
+            </span>
+            <header th:replace="../static/html/header::header"></header>
+        </nav>
 
-<div th:if="${param.error}">
-    Invalid username and password.
-</div>
-<div th:if="${param.logout}">
-    You have been logged out.
-</div>
-<form th:action="@{/login}" method="post">
-    <fieldset>
-        <div>
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" placeholder="username" required="required" autofocus="autofocus" />
+        <br>
+
+        <div th:if="${param.error}">
+            Invalid username and password.
         </div>
-
-        <div>
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="password" required="required" />
+        <div th:if="${param.logout}">
+            You have been logged out.
         </div>
+        <form th:action="@{/login}" method="post">
+            <fieldset>
+                <div>
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="username" required="required" autofocus="autofocus" />
+                </div>
 
-        <div>
-            <input type="submit" value="Log in" />
-        </div>
-    </fieldset>
-</form>
-</body>
+                <div>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="password" required="required" />
+                </div>
+
+                <div>
+                    <input type="submit" value="Log in" />
+                </div>
+            </fieldset>
+        </form>
+        <a sec:authorize="isAuthenticated()" th:href="@{/users/add}" method="post">Register</a>
+    </body>
 </html>

@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head>
-    <title>Hello World!</title>
-</head>
-<body>
-<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
-</body>
+	<head>
+		<title>Jui bo</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<link rel="stylesheet" th:href="@{/css/index.css}"/>
+	</head>
+
+	<body>
+		<nav class="navbar navbar-light bg-dark">
+		  <span class="navbar-text">
+			<h1>Welcome into the WarZone</h1>
+		  </span>
+		</nav>
+		<h2 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h2>
+        <a sec:authorize="isAuthenticated()" th:href="@{/users/logout}" method="get">Log out</a><br>
+        <a sec:authorize="isAuthenticated()" th:href="@{/personnages/all}" method="get">My persos</a>
+
+    </body>
 </html>

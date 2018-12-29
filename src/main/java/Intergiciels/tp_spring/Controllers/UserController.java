@@ -33,13 +33,18 @@ public class UserController {
         user.setRole(Role.ROLE_USER);
         user.setLeague(League.Bronze);
         userRepository.save(user);
-        return "home";
+        return "login";
     }
 
     @GetMapping(path="/all")
     public @ResponseBody Iterable<User> getAllUsers() {
         // This returns a JSON or XML with the users
         return userRepository.findAll();
+    }
+
+    @GetMapping("/logout")
+    public String logout(Model model) {
+        return "login";
     }
 }
 
